@@ -34,7 +34,26 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+#Custom settings
+AUTH_USER_MODEL = "users.CustomUser"
+#settings for  django-cors-header
+CORS_ALLOWED_ORIGINS =[
+    "http://localhost:8080",
+    "http://127.0.0:8000"
+]
 
+
+
+#Setting for Rest_framework_jwt
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.TokenAuthentication',
+        
+    ),
+    'DEFAULT_PERMISSION_CLASSES': {
+        'rest_framework.permissions.IsAuthenticated'
+    }
+}
 
 # Application definition
 
@@ -51,13 +70,18 @@ INSTALLED_APPS = [
     
     #thirdparty apps
     'rest_framework',
+    'rest_frame'
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'djoser',
+    'corsheaders',
+    
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -145,17 +169,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#Custom settings
-AUTH_USER_MODEL = "users.CustomUser"
 
-#Setting for Rest_framework_jwt
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=30),
-}
