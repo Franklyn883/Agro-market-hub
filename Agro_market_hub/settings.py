@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-import datetime
+from datetime import timedelta #jwt
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,26 +35,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-#Custom settings
-AUTH_USER_MODEL = "users.CustomUser"
-#settings for  django-cors-header
-CORS_ALLOWED_ORIGINS =[
-    "http://localhost:8080",
-    "http://127.0.0:8000"
-]
-
-
-
-#Setting for Rest_framework_jwt
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.TokenAuthentication',
-        
-    ),
-    'DEFAULT_PERMISSION_CLASSES': {
-        'rest_framework.permissions.IsAuthenticated'
-    }
-}
 
 # Application definition
 
@@ -70,7 +51,6 @@ INSTALLED_APPS = [
     
     #thirdparty apps
     'rest_framework',
-    'rest_frame'
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'djoser',
@@ -81,7 +61,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',#corsheader
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -158,6 +138,52 @@ USE_I18N = True
 
 USE_TZ = True
 
+#Custom settings
+AUTH_USER_MODEL = "users.CustomUser"
+#settings for  django-cors-header
+CORS_ALLOWED_ORIGINS =[
+    "http://localhost:8080",
+    "http://127.0.0:8000"
+]
+
+
+
+#Setting for Rest_framework_jwt
+REST_FRAMEWORK = {
+
+    'DEFAULT_PERMISSION_CLASSES': {
+        'rest_framework.permissions.IsAuthenticated'
+    },
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        
+    )
+}
+
+#Djoser settings
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.CustomUserCreateSerializer',
+    },
+    
+    'SEND_ACTIVATION_EMAIL':True,
+    'ACTIVATION_URL':'auth/activate/?uid={uid}&token={token}',
+    'PASSWORD_RESET_CONFIRM_URL':'auth/reset-password/?uid={uid}&token={token}',
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND':True,
+}
+DOMAIN = 'localhost:5173'
+SITE_NAME = 'Agro Market Hub'
+#JWT settings
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
