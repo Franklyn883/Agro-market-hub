@@ -160,14 +160,26 @@ REST_FRAMEWORK = {
     )
 }
 
+#Email setup
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('email_host')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER= os.environ.get('email_host_user')
+EMAIL_HOST_PASSWORD = os.environ.get('email_password')
+
 #Djoser settings
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'SERIALIZERS': {
         'user_create': 'users.serializers.CustomUserCreateSerializer',
+        'current_user': 'users.serializers.CustomUserSerializer',
+        'user': 'users.serializers.CustomUserSerializer',
     },
     
     'SEND_ACTIVATION_EMAIL':True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     'ACTIVATION_URL':'auth/activate/?uid={uid}&token={token}',
     'PASSWORD_RESET_CONFIRM_URL':'auth/reset-password/?uid={uid}&token={token}',
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND':True,
