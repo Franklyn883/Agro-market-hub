@@ -1,30 +1,39 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+<header>
+    <nav class="navbar">
+        <div class="navbar__logo">
+            <h1 class="logo">AgroHub</h1>
+        </div>
+        <ul class="navbar__items">
+            <li class="navbar__item">
+                <h3>Products</h3>
+            </li>
+            <li class="navbar__item">
+                <h3>Cart</h3>
+            </li>
+        </ul>
+    </nav>
+</header>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
 }
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.navbar{
+    background-color: #3E8C4B;
+    color: #ffffff;
+    padding:0.5em;
+    display:flex;
+    gap:1em;
+}
+.navbar ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
 }
 </style>
